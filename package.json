@@ -1,0 +1,24 @@
+{
+  "name": "@nextjs/cli",
+  "version": "1.0.0",
+  "description": "next js files manager",
+  "author": "Dálcio Garcia",
+  "license": "ISC",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "next cli",
+    "next files manager"
+  ],
+  "bin": {
+    "ncli": "./bin/index.js"
+  },
+  "dependencies": {
+    "boxen": "^7.0.0",
+    "chalk": "^5.1.2",
+    "yargs": "^17.6.0"
+  }
+}
