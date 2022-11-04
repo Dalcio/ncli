@@ -3,6 +3,9 @@ const path = require("path");
 const formatters = require("./formatters");
 const { isAtTheRootOfANextJsProject } = require("./verifies");
 const NewComponent = require("../templates/New.components");
+const newPageTemplate = require("../templates/NewPage");
+const newHook = require("../templates/newHookTemplate");
+const newAPI = require("../templates/newApi");
 
 /**
  *
@@ -11,7 +14,7 @@ const NewComponent = require("../templates/New.components");
  * @param {string} currPath the path where it will be created
  * @param {'ts' | 'js'} ext the path where it will be created
  */
-function generate(element, name, currPath, ext = "js") {
+function generate(element, name, currPath, ext) {
   if (isAtTheRootOfANextJsProject()) {
     let targetDir = path.join(process.cwd(), "src");
     const normalized = path.normalize(currPath);
@@ -29,24 +32,24 @@ function generate(element, name, currPath, ext = "js") {
         if (ext === "ts") {
           fs.writeFileSync(
             path.join(targetDir, `index.tsx`),
-            NewComponent.newComponentTemplateTs(name)
+            NewComponent.newComponentTemplateTs(componentName)
           ); // index.tsx
           fs.writeFileSync(
-            path.join(targetDir, `${name}.styles.ts`),
-            NewComponent.newComponentStitchesStylesTemplate(name)
+            path.join(targetDir, `${componentName}.styles.ts`),
+            NewComponent.newComponentStitchesStylesTemplate(componentName)
           ); // Component.styles.ts
           fs.writeFileSync(
-            path.join(targetDir, `${name}.types.ts`),
-            NewComponent.newComponentTypesTemplate(name)
-          ); // Component.styles.ts
+            path.join(targetDir, `${componentName}.types.ts`),
+            NewComponent.newComponentTypesTemplate(componentName)
+          ); // Component.types.ts
         } else {
           fs.writeFileSync(
             path.join(targetDir, `index.jsx`),
-            NewComponent.newComponentTemplateTs(name)
+            NewComponent.newComponentTemplateTs(componentName)
           ); // index.tsx
           fs.writeFileSync(
-            path.join(targetDir, `${name}.styles.js`),
-            NewComponent.newComponentStitchesStylesTemplate(name)
+            path.join(targetDir, `${componentName}.styles.js`),
+            NewComponent.newComponentStitchesStylesTemplate(componentName)
           ); // Component.styles.js
         }
         break;
@@ -55,43 +58,49 @@ function generate(element, name, currPath, ext = "js") {
         const hookName = formatters.formatIntoHookName(name);
         targetDir = path.join(targetDir, "hooks", normalized);
 
-        console.log(
-          ":>: Generating a new hook called " +
-            hookName +
-            ext +
-            ":>:into " +
-            path
+        if (!fs.existsSync(targetDir)) {
+          fs.mkdirSync(targetDir);
+        }
+
+        fs.writeFileSync(
+          path.join(targetDir, `${hookName}.${ext}x`),
+          ext === "ts"
+            ? newHook.newHookTemplateTS(hookName)
+            : newHook.newHookTemplate(hookName)
         );
+
         break;
       case "api":
       case "a":
-        const apiName = formatters.formatIntoHookName(name);
-        targetDir = path.join(targetDir, "api", normalized);
+        const apiName = formatters.capitalize(name);
+        const apiFileName = formatters.fileName(name);
+        targetDir = path.join(targetDir, "pages", "api", normalized);
 
-        console.log(
-          ":>: Generating a new api method called " +
-            apiName +
-            ext +
-            ":>:into " +
-            path
-        );
-        console.log(
-          ":>: Generating the component " + componentName + ":>:into " + path
-        );
+        fs.writeFileSync(
+          path.join(targetDir, `${apiFileName}.${ext}`),
+          ext === "js" ? newAPI.newAPIJS(apiName) : newAPI.newAPITS(apiName)
+        ); // api
+
         break;
       case "page":
       case "p":
         const pageName = formatters.capitalize(name);
         targetDir = path.join(targetDir, "pages", normalized);
 
-        console.log(
-          ":>: Generating a new Page " + pageName + ":>:into " + path
-        );
-        break;
+        if (!fs.existsSync(targetDir)) {
+          fs.mkdirSync(targetDir);
+        }
 
+        fs.writeFileSync(
+          path.join(targetDir, `${pageName}.${ext}x`),
+          newPageTemplate(pageName)
+        ); // Page.tsx
+
+        break;
       default:
-        console.log(":: Nothing to be created ::");
+        throw new Error();
     }
+    console.log(`\t:: Generated with Success🎆🎇🎉🎊 ::`);
   } else {
     console.log(
       `the path::> ${process.cwd()}\n does not correspond to a next project`

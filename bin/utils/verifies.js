@@ -18,6 +18,20 @@ function isAtTheRootOfANextJsProject() {
   return false;
 }
 
+function isUsingTypescript() {
+  const executedCommandDir = process.cwd();
+  const tsConfigJson = path.join(executedCommandDir, "tsconfig.json");
+
+  const existPath = fs.existsSync(tsConfigJson);
+
+  if (existPath) {
+    return true;
+  }
+
+  return false;
+}
+
 module.exports = {
   isAtTheRootOfANextJsProject,
+  isUsingTypescript,
 };

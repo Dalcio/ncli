@@ -17,7 +17,16 @@ function formatIntoHookName(name) {
   return `use{capitalize(name)}`;
 }
 
-// function format(params) {
+/**
+ * inserts before all uppercase letters excepts the first with hyphen (-) and transform the string nto lowercase letters
+ * @param {string} name
+ */
+function fileName(name) {
+  const hyphened = name
+    .substring(1)
+    .replace(/[A-Z]+[a-z]*/g, (match) => `-${match.toLowerCase()}`);
 
-// }
-module.exports = { capitalize, formatIntoHookName };
+  return `${name[0].toLowerCase()}${hyphened}`;
+}
+
+module.exports = { capitalize, formatIntoHookName, fileName };
