@@ -27,4 +27,4 @@ const newAPI = {
   newAPITS,
 };
 
-module.exports = newAPI;
+export default newAPI;

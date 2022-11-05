@@ -1,7 +1,10 @@
 #! /usr/bin/env node
-const yargs = require("yargs");
-const utils = require("./utils");
-const { isUsingTypescript } = require("./utils/verifies");
+import y from "yargs";
+import { hideBin } from "yargs/helpers";
+import generate from "./utils/generate.mjs";
+import { isUsingTypescript } from "./utils/verifies.mjs";
+
+const yargs = y(hideBin(process.argv));
 
 yargs
   .usage("\nUsage: ncli <command>")
@@ -28,7 +31,7 @@ const run = () => {
       const { ext, path, schematic, name } = yargs.argv;
 
       if (name && schematic && ext && path) {
-        utils.generate(schematic, name, path, ext);
+        generate(schematic, name, path, ext);
       } else {
         options.showHelp();
       }

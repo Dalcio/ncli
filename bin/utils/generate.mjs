@@ -1,11 +1,12 @@
-const fs = require("fs");
-const path = require("path");
-const formatters = require("./formatters");
-const { isAtTheRootOfANextJsProject } = require("./verifies");
-const NewComponent = require("../templates/New.components");
-const newPageTemplate = require("../templates/NewPage");
-const newHook = require("../templates/newHookTemplate");
-const newAPI = require("../templates/newApi");
+import fs from "fs";
+import path from "path";
+import { isAtTheRootOfANextJsProject } from "./verifies.mjs";
+import { beautyTerminal, terminalError } from "./beautyTerminal.mjs";
+import { capitalize, fileName, formatIntoHookName } from "./formatters.mjs";
+import NewComponent from "../templates/New.components.mjs";
+import newPageTemplate from "../templates/NewPage.mjs";
+import newHook from "../templates/newHookTemplate.mjs";
+import newAPI from "../templates/newApi.mjs";
 
 /**
  *
@@ -14,7 +15,7 @@ const newAPI = require("../templates/newApi");
  * @param {string} currPath the path where it will be created
  * @param {'ts' | 'js'} ext the path where it will be created
  */
-function generate(element, name, currPath, ext) {
+export default function generate(element, name, currPath, ext) {
   if (isAtTheRootOfANextJsProject()) {
     let targetDir = path.join(process.cwd(), "src");
     const normalized = path.normalize(currPath);
@@ -22,7 +23,7 @@ function generate(element, name, currPath, ext) {
     switch (element) {
       case "component":
       case "c":
-        const componentName = formatters.capitalize(name);
+        const componentName = capitalize(name);
         targetDir = path.join(targetDir, "components", normalized, name);
 
         if (!fs.existsSync(targetDir)) {
@@ -52,10 +53,11 @@ function generate(element, name, currPath, ext) {
             NewComponent.newComponentStitchesStylesTemplate(componentName)
           ); // Component.styles.js
         }
+        beautyTerminal("component");
         break;
       case "hook":
       case "h":
-        const hookName = formatters.formatIntoHookName(name);
+        const hookName = formatIntoHookName(name);
         targetDir = path.join(targetDir, "hooks", normalized);
 
         if (!fs.existsSync(targetDir)) {
@@ -68,23 +70,23 @@ function generate(element, name, currPath, ext) {
             ? newHook.newHookTemplateTS(hookName)
             : newHook.newHookTemplate(hookName)
         );
-
+        beautyTerminal("hook");
         break;
       case "api":
       case "a":
-        const apiName = formatters.capitalize(name);
-        const apiFileName = formatters.fileName(name);
+        const apiName = capitalize(name);
+        const apiFileName = fileName(name);
         targetDir = path.join(targetDir, "pages", "api", normalized);
 
         fs.writeFileSync(
           path.join(targetDir, `${apiFileName}.${ext}`),
           ext === "js" ? newAPI.newAPIJS(apiName) : newAPI.newAPITS(apiName)
         ); // api
-
+        beautyTerminal("api");
         break;
       case "page":
       case "p":
-        const pageName = formatters.capitalize(name);
+        const pageName = capitalize(name);
         targetDir = path.join(targetDir, "pages", normalized);
 
         if (!fs.existsSync(targetDir)) {
@@ -95,17 +97,14 @@ function generate(element, name, currPath, ext) {
           path.join(targetDir, `${pageName}.${ext}x`),
           newPageTemplate(pageName)
         ); // Page.tsx
-
+        beautyTerminal("page");
         break;
       default:
         throw new Error();
     }
-    console.log(`\t:: Generated with Success🎆🎇🎉🎊 ::`);
   } else {
-    console.log(
+    terminalError(
       `the path::> ${process.cwd()}\n does not correspond to a next project`
     );
   }
 }
-
-module.exports = generate;

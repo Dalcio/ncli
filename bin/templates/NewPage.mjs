@@ -15,4 +15,4 @@ const ${name} = () => {
 
 export default ${name};`;
 
-module.exports = newPageTemplate;
+export default newPageTemplate;

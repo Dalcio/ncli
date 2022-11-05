@@ -38,4 +38,4 @@ const newHook = {
   newHookTemplateTS,
 };
 
-module.exports = newHook;
+export default newHook;

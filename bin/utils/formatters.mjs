@@ -4,7 +4,7 @@
  * eg. "advocateGreenYYellow => AdvocateGreenYYellow
  * @param {string} name
  */
-function capitalize(name) {
+export function capitalize(name) {
   const withoutSpaces = name
     .substring(1)
     .replace(/\s+[A-Za-z]/g, (match) =>
@@ -19,15 +19,15 @@ function capitalize(name) {
  * @param {string} name
  * @returns string
  */
-function formatIntoHookName(name) {
-  return `use{capitalize(name)}`;
+export function formatIntoHookName(name) {
+  return `use${capitalize(name)}`;
 }
 
 /**
  * inserts before all uppercase letters excepts the first with hyphen (-) and transform the string nto lowercase letters
  * @param {string} name
  */
-function fileName(name) {
+export function fileName(name) {
   const hyphened = name
     .substring(1)
     .replace(
@@ -36,5 +36,3 @@ function fileName(name) {
     );
   return `${name[0].toLowerCase()}${hyphened}`;
 }
-
-module.exports = { capitalize, formatIntoHookName, fileName };

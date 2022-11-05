@@ -34,9 +34,11 @@ export const ${name}Container = styled('div', {
 });
   `;
 
-module.exports = {
+const NewComponent = {
   newComponentStitchesStylesTemplate,
   newComponentTemplateJs,
   newComponentTemplateTs,
   newComponentTypesTemplate,
 };
+
+export default NewComponent;
