@@ -20,7 +20,7 @@
     "next files manager"
   ],
   "bin": {
-    "ncli": "./bin/index.js"
+    "ncli": "bin/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,6 @@
   "bugs": {
     "url": "https://github.com/Dalcio/ncli/issues"
   },
-  "homepage": "https://github.com/Dalcio/ncli#readme"
+  "homepage": "https://github.com/Dalcio/ncli#readme",
+  "devDependencies": {}
 }
