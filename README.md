@@ -19,13 +19,13 @@ Next js r CLI is a command-line interface tool that you use to initialize, devel
 Install the CLI using the `npm` package manager:
 
 ```bash
-npm install --global @nextjs/cli
+npm install --global next-js-cli
 ```
 
 or
 
 ```bash
-npm install -g @nextjs/cli
+npm install -g next-js-cli
 ```
 
 ## Basic Workflow

@@ -1,6 +1,6 @@
 {
-  "name": "@nextjs/cli",
-  "version": "1.0.0",
+  "name": "next-js-cli",
+  "version": "1.0.1",
   "description": "next js files manager",
   "author": "Dálcio Garcia",
   "license": "ISC",
