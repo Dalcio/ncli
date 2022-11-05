@@ -8,6 +8,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "boxen": "^7.0.0",
+    "chalk": "^5.1.2",
+    "yargs": "^17.6.0"
+  },
   "keywords": [
     "cli",
     "next cli",
@@ -16,9 +21,12 @@
   "bin": {
     "ncli": "./bin/index.js"
   },
-  "dependencies": {
-    "boxen": "^7.0.0",
-    "chalk": "^5.1.2",
-    "yargs": "^17.6.0"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dalcio/ncli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dalcio/ncli/issues"
+  },
+  "homepage": "https://github.com/Dalcio/ncli#readme"
 }
