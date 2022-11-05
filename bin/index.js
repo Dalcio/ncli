@@ -6,8 +6,8 @@ const { isUsingTypescript } = require("./utils/verifies");
 yargs
   .usage("\nUsage: ncli <command>")
   .command({
-    command: "new <schematic> <name> [path] [ext]",
-    aliases: ["n", "generate", "g"],
+    command: "generate <schematic> <name> [path] [ext]",
+    aliases: ["g"],
     desc: "Generates and files based on a schematic.",
     builder: (yargs) =>
       yargs.default({ ext: isUsingTypescript() ? "ts" : "js", path: "." }),
@@ -24,7 +24,7 @@ yargs
 
 const run = () => {
   try {
-    if (yargs.argv._[0].match(/^(new|n)$/g)) {
+    if (yargs.argv._[0].match(/^(generate|g)$/g)) {
       const { ext, path, schematic, name } = yargs.argv;
 
       if (name && schematic && ext && path) {

@@ -5,7 +5,13 @@
  * @param {string} name
  */
 function capitalize(name) {
-  return name.charAt(0).toUpperCase() + name.substring(1);
+  const withoutSpaces = name
+    .substring(1)
+    .replace(/\s+[A-Za-z]/g, (match) =>
+      match.toUpperCase().replace(/\s+/g, "")
+    );
+
+  return name.charAt(0).toUpperCase() + withoutSpaces;
 }
 
 /**
@@ -24,8 +30,10 @@ function formatIntoHookName(name) {
 function fileName(name) {
   const hyphened = name
     .substring(1)
-    .replace(/[A-Z]+[a-z]*/g, (match) => `-${match.toLowerCase()}`);
-
+    .replace(
+      /\s*[A-Z]+[a-z]*/g,
+      (match) => `-${match.toLowerCase().replace(/\s+/g, "")}`
+    );
   return `${name[0].toLowerCase()}${hyphened}`;
 }
 
